@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогресс - приложение для спорта</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item" data-page="index">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Главная</span>
+    </a>
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+    <h1 class="main_header">Прогресс</h1>
+
+    <div class="progress-container">
+        <!-- Столбчатая диаграмма -->
+        <div class="chart-container">
+            <canvas id="activityChart" width="300" height="200" style="width:100%; max-width:500px; height:auto;"></canvas>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-label">Всего занятий</span>
+                <span class="stat-value" id="total-duration">7 ч 34 мин</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Сожжено</span>
+                <span class="stat-value" id="total-calories">0 ккал</span>
+            </div>
+        </div>
+
+        <!-- Кнопка истории -->
+        <div class="history-button">
+            <a href="/history.html" class="action-btn">История тренировок</a>
+        </div>
+    </div>
+
+    <script type="module">
+    import { redirectIfNotAuthenticated } from '/js/auth.js';
+    redirectIfNotAuthenticated();
+</script>
+    <script type="module" src="/js/progress.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

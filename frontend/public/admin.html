@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | Спорт приложение</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body class="admin-page">
+    <nav class="bottom-nav">
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+    <h1 class="main_header">Админ-панель</h1>
+
+    <div class="admin-dashboard">
+        <a href="admin-trainings.html" class="admin-card">
+            <div class="admin-card-icon">📋</div>
+            <h2>Тренировки</h2>
+            <p>Управление тренировочными программами</p>
+        </a>
+
+        <a href="admin-exercises.html" class="admin-card">
+            <div class="admin-card-icon">💪</div>
+            <h2>Упражнения</h2>
+            <p>Редактирование базы упражнений</p>
+        </a>
+
+        <a href="admin-users.html" class="admin-card">
+            <div class="admin-card-icon">👥</div>
+            <h2>Пользователи</h2>
+            <p>Управление пользователями</p>
+        </a>
+    </div>
+    <script type="module">
+    import { getUser } from '/js/auth.js';
+    const user = getUser();
+    if (!user || user.role !== 'admin') {
+        window.location.href = '/login.html';
+    }
+</script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

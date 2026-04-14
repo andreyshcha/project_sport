@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Профиль - приложение для спорта</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item" data-page="index">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Главная</span>
+    </a>
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+
+    <main class="main-content">
+        <h1 class="main_header">Профиль</h1>
+
+        <!-- Блок с именем пользователя и кнопкой редактирования -->
+        <div class="profile-user-name">
+            <span id="user-name"></span>
+            <button id="edit-name-btn" class="edit-name-btn">✏️</button>
+        </div>
+
+        <form id="profile-form" class="profile-form">
+            <!-- Фото: заглушка и возможность выбора -->
+            <div class="photo-section">
+                <img src="/assets/default_photo.png" alt="Фото профиля" id="profile-photo" class="profile-photo">
+                <button type="button" id="change-photo-btn" class="change-photo-btn">Изменить фото</button>
+                <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Пол -->
+            <div class="form-group">
+                <label for="gender">Пол</label>
+                <select id="gender" name="gender">
+                    <option value="male" style="width: 60%;">Мужской</option>
+                    <option value="female">Женский</option>
+                    
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="height">Рост (см)</label>
+                <input type="number" id="height" name="height" placeholder="170" step="1">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Возраст (лет)</label>
+                <input type="number" id="age" name="age" placeholder="25">
+            </div>
+
+            <div class="form-group">
+                <label for="weight">Вес (кг)</label>
+                <input type="number" id="weight" name="weight" placeholder="70" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="hips">ОБ (обхват бедер, см)</label>
+                <input type="number" id="hips" name="hips" placeholder="90" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="chest">ОГ (обхват груди, см)</label>
+                <input type="number" id="chest" name="chest" placeholder="95" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="waist">ОТ (обхват талии, см)</label>
+                <input type="number" id="waist" name="waist" placeholder="75" step="0.1">
+            </div>
+
+            <div class="form-group">
+                <label for="bodyfat">% жира (расчетное)</label>
+                <input type="text" id="bodyfat" name="bodyfat" readonly disabled>
+                <small>Рассчитывается автоматически после ввода данных</small>
+            </div>
+
+            <div class="form-group">
+                <label for="goal">Цель</label>
+                <select id="goal" name="goal">
+                    <option value="weight_loss">Похудение</option>
+                    <option value="muscle_gain">Набор мышечной массы</option>
+                    <option value="maintenance">Поддержание формы</option>
+                    <option value="endurance">Развитие выносливости</option>
+                    <option value="rehabilitation">Реабилитация</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="level">Уровень подготовки</label>
+                <select id="level" name="level">
+                    <option value="beginner">Новичок</option>
+                    <option value="intermediate">Средний</option>
+                    <option value="advanced">Продвинутый</option>
+                </select>
+            </div>
+
+            <!-- Инвентарь (чекбоксы) -->
+            <div class="form-group">
+                <label>Доступный инвентарь</label>
+                <div class="checkbox-group" id="equipment-group">
+                    <label><input type="checkbox" value="barbell"> Штанга</label>
+                    <label><input type="checkbox" value="dumbbells"> Гантели</label>
+                    <label><input type="checkbox" value="pullup_bar"> Турник</label>
+                    <label><input type="checkbox" value="bench"> Скамья</label>
+                    <label><input type="checkbox" value="resistance_bands"> Резинки</label>
+                    <label><input type="checkbox" value="kettlebells"> Гири</label>
+                    <label><input type="checkbox" value="cardio_machine"> Кардио-тренажёр</label>
+                    
+                </div>
+            </div>
+
+            <!-- Травмы / ограничения -->
+            <div class="form-group">
+                <label for="injuries">Травмы / ограничения (через запятую)</label>
+                <textarea id="injuries" rows="2" placeholder="например: колено, спина, плечо"></textarea>
+            </div>
+
+            <button type="submit" class="save-btn">Сохранить изменения</button>
+        </form>
+    </main>
+
+    <!-- Подключаем модуль профиля, который сам проверяет авторизацию -->
+    <script type="module" src="/js/profile.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

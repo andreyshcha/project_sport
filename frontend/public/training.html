@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тренировка - приложение для спорта</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item" data-page="index">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Главная</span>
+    </a>
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+    <h1 class="main_header">Тренировка</h1>
+
+    <!-- Режим просмотра упражнений (список) -->
+    <div id="preview-mode" class="mode-container">
+        <h2>Упражнения</h2>
+        <div id="exercises-list" class="exercises-list"></div>
+        <button id="start-training-btn" class="action-btn">Начать тренировку</button>
+    </div>
+
+    <!-- Режим активной тренировки -->
+    <div id="active-mode" class="mode-container" style="display: none;">
+        <div class="training-header">
+            <div class="timer-display">00:00:00</div>
+            <div class="round-counter">Круг <span id="current-round">1</span> / <span id="total-rounds">3</span></div>
+        </div>
+        <div class="current-exercise-card">
+            <img id="current-exercise-img" src="" alt="Упражнение" class="current-exercise-img">
+            <h3 id="current-exercise-name"></h3>
+            <p id="current-exercise-desc"></p>
+        </div>
+        <div class="training-controls">
+            <button id="complete-btn" class="control-btn primary">Выполнил</button>
+            <button id="pause-btn" class="control-btn">Пауза</button>
+            <button id="end-training-btn" class="control-btn danger">Конец тренировки</button>
+        </div>
+    </div>
+
+    <!-- Блок оценки после завершения тренировки -->
+    <div id="completion-mode" class="mode-container" style="display: none;">
+        <h2>Тренировка завершена!</h2>
+        <p>Как прошла тренировка?</p>
+        <div class="rating-buttons">
+            <button class="rating-btn" data-rating="hard">Тяжело</button>
+            <button class="rating-btn" data-rating="normal">Нормально</button>
+            <button class="rating-btn" data-rating="easy">Легко</button>
+        </div>
+        <button id="go-home-btn" class="action-btn">На главную</button>
+    </div>
+    <script type="module">
+    import { redirectIfNotAuthenticated } from '/js/auth.js';
+    redirectIfNotAuthenticated();
+</script>
+    <script type="module" src="/js/training.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

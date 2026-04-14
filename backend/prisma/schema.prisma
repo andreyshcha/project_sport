@@ -1,0 +1,175 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int              @id @default(autoincrement())
+  email        String           @unique
+  passwordHash String           @map("password_hash")
+  name         String?
+  role         String           @default("user") // user, admin
+  photoUrl     String?          @map("photo_url")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  profile      UserProfile?
+  sessions     TrainingSession[]
+  generatedPlans GeneratedPlan[]
+  measurements UserMeasurement[] // добавить
+  workouts Workout[] // для тренировок пользователя
+
+  @@map("users")
+}
+
+model UserProfile {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int      @unique @map("user_id")
+  height     Int?     // см
+  age        Int?
+  weight     Float?   // кг
+  gender     String?  // male, female, other
+  hips       Float?   // см
+  chest      Float?   // см
+  waist      Float?   // см
+  bodyFat    Float?   @map("body_fat") // %
+  goal       String?  // weight_loss, muscle_gain, maintenance, endurance, rehabilitation
+  level      String?  // beginner, intermediate, advanced
+  equipment  Json?    // {"barbell": true, "dumbbells": true, ...}
+  injuries   Json?    // массив травм/ограничений
+  updatedAt  DateTime @default(now()) @map("updated_at")
+
+  @@map("user_profiles")
+}
+
+model Exercise {
+  id          Int                   @id @default(autoincrement())
+  name        String
+  description String?
+  imageUrl    String?               @map("image_url")
+  type        String?               // strength, cardio, flexibility, other
+  difficulty  String?               // easy, medium, hard
+  met         Float?                // MET для расчёта калорий (по умолчанию 5 для силовых)
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @updatedAt @map("updated_at")
+  muscleGroups ExerciseMuscleGroup[]
+  workoutExercises WorkoutExercise[]
+  sessionExercises SessionExercise[]
+  originalAlternatives   ExerciseAlternative[] @relation("original")
+  alternativeAlternatives ExerciseAlternative[] @relation("alternative")
+
+  @@map("exercises")
+}
+
+model ExerciseMuscleGroup {
+  exerciseId   Int      @map("exercise_id")
+  muscleGroup  String   @map("muscle_group") // Грудь, Спина, Ноги, Плечи, Бицепс, Трицепс, Ягодицы, Кор, Сердечно-сосудистая
+  exercise     Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@id([exerciseId, muscleGroup])
+  @@map("exercise_muscle_groups")
+}
+
+model Workout {
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String?
+  difficulty  String?
+  createdAt   DateTime         @default(now()) @map("created_at")
+  exercises   WorkoutExercise[]
+  sessions    TrainingSession[]
+  userId      Int?             @map("user_id")
+  user        User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  scheduledDate DateTime?      @map("scheduled_date") // дата, на которую запланирована тренировка
+  generatedPlanId Int?         @map("generated_plan_id")
+  generatedPlan GeneratedPlan? @relation(fields: [generatedPlanId], references: [id])
+
+  @@map("workouts")
+}
+
+model WorkoutExercise {
+  id         Int      @id @default(autoincrement())
+  workout    Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  workoutId  Int      @map("workout_id")
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  exerciseId Int      @map("exercise_id")
+  sets       Int?     // количество подходов
+  reps       Int?     // повторений (для силовых)
+  durationSec Int?    @map("duration_sec") // для кардио
+  orderIndex Int      @map("order_index")
+
+  @@map("workout_exercises")
+}
+
+model TrainingSession {
+  id            Int               @id @default(autoincrement())
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int               @map("user_id")
+  workout       Workout?          @relation(fields: [workoutId], references: [id])
+  workoutId     Int?              @map("workout_id")
+  date          DateTime          @default(now())
+  durationSec   Int?              @map("duration_sec") // общая длительность
+  rating        String?           // easy, normal, hard (можно перевести в RPE 1-10)
+  caloriesBurned Int?             @map("calories_burned")
+  exercises     SessionExercise[]
+  createdAt     DateTime          @default(now()) @map("created_at")
+
+  @@map("training_sessions")
+}
+
+model SessionExercise {
+  id         Int              @id @default(autoincrement())
+  session    TrainingSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId  Int              @map("session_id")
+  exercise   Exercise         @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  exerciseId Int              @map("exercise_id")
+  setsJson   Json?            @map("sets_json") // массив подходов: [{"weight": 50, "reps": 10, "rpe": 7}, ...] или {"duration": 60}
+  orderIndex Int              @map("order_index")
+  startTime  DateTime?        @map("start_time")
+  endTime    DateTime?        @map("end_time")
+
+  @@map("session_exercises")
+}
+
+model GeneratedPlan {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int      @map("user_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  conversation Json?   // массив сообщений [{role: "user", content: "..."}, {role: "assistant", content: "..."}]
+  planResult Json?     @map("plan_result") // сгенерированный план (структура)
+  workouts Workout[] // список созданных по этому плану тренировок
+
+  @@map("generated_plans")
+}
+
+model UserMeasurement {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      @map("user_id")
+  date      DateTime @default(now())
+  weight    Float?
+  hips      Float?
+  chest     Float?
+  waist     Float?
+  bodyFat   Float?   @map("body_fat")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("user_measurements")
+}
+
+model ExerciseAlternative {
+  id            Int      @id @default(autoincrement())
+  exerciseId    Int      @map("exercise_id")
+  alternativeId Int      @map("alternative_id")
+  reason        String?  // причина замены (травма, отсутствие инвентаря и т.п.)
+  exercise      Exercise @relation("original", fields: [exerciseId], references: [id], onDelete: Cascade)
+  alternative   Exercise @relation("alternative", fields: [alternativeId], references: [id], onDelete: Cascade)
+
+  @@unique([exerciseId, alternativeId])
+  @@map("exercise_alternatives")
+}

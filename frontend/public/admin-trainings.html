@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление тренировками | Админ</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body class="admin-page">
+    <nav class="bottom-nav">...</nav>
+    <h1 class="main_header">Управление тренировками</h1>
+
+    <div class="admin-section">
+        <div class="admin-header">
+            <p><a href="admin.html" class="back-link">← Назад</a></p>
+            <button id="add-workout-btn" class="action-btn">➕ Добавить тренировку</button>
+        </div>
+        <div id="workouts-container" class="workouts-list"></div>
+        
+    </div>
+
+    <!-- Модальное окно для добавления/редактирования -->
+    <div id="workout-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Добавить тренировку</h3>
+            <form id="workout-form">
+                <input type="hidden" id="workout-id">
+                <div class="form-group">
+                    <label>Название тренировки *</label>
+                    <input type="text" id="workout-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="workout-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Сложность</label>
+                    <select id="workout-difficulty">
+                        <option value="beginner">Новичок</option>
+                        <option value="intermediate">Средний</option>
+                        <option value="advanced">Продвинутый</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Упражнения</label>
+                    <div id="exercises-list-container">
+                        <!-- Сюда динамически добавляются строки упражнений -->
+                    </div>
+                    <button type="button" id="add-exercise-row" class="small-btn">+ Добавить упражнение</button>
+                </div>
+
+                <button type="submit" class="btn-save">Сохранить</button>
+                <button type="button" id="close-modal" class="btn-close">Отмена</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getUser } from '/js/auth.js';
+        const user = getUser();
+        if (!user || user.role !== 'admin') {
+            window.location.href = '/login.html';
+        }
+    </script>
+    <script type="module" src="/js/admin-trainings.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

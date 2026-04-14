@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление упражнениями | Админ</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body class="admin-page">
+    <nav class="bottom-nav">
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+    <h1 class="main_header">Управление упражнениями</h1>
+
+    <div class="admin-section">
+        <div class="admin-header">
+            <p><a href="admin.html" class="back-link">← Назад</a></p>
+            <button id="add-exercise-btn" class="action-btn">➕ Добавить упражнение</button>
+        </div>
+
+        <div id="exercises-container" class="exercises-list">
+            <!-- сюда JS вставит карточки упражнений -->
+        </div>
+
+        
+    </div>
+
+    <!-- Модальное окно для добавления/редактирования -->
+    <div id="exercise-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Добавить упражнение</h3>
+            <form id="exercise-form">
+                <input type="hidden" id="exercise-id">
+                <input type="hidden" id="exercise-image" value="">
+                <div class="form-group">
+                    <label>Название упражнения *</label>
+                    <input type="text" id="exercise-name" required>
+                </div>
+                <!-- <div class="form-group">
+                    <label>Фото (URL)</label>
+                    <input type="url" id="exercise-image" placeholder="https://example.com/image.jpg">
+                    <small>Если не указать, будет использоваться заглушка</small>
+                </div> -->
+                <div class="form-group">
+                    <label>Фото</label>
+                    <input type="file" id="exercise-photo" accept="image/*">
+                    <div id="current-image-preview" style="margin-top: 8px;"></div>
+                    <small>Вы можете загрузить фото или указать URL</small>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="exercise-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Группы мышц</label>
+                    <div id="muscle-groups" class="checkbox-group"></div>
+                </div>
+                <div class="form-group">
+                    <label>Тип упражнения</label>
+                    <select id="exercise-type">
+                        <option value="strength">Силовое</option>
+                        <option value="cardio">Кардио</option>
+                        <option value="flexibility">Гибкость</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Сложность</label>
+                    <select id="exercise-difficulty">
+                        <option value="easy">Легкая</option>
+                        <option value="medium">Средняя</option>
+                        <option value="hard">Высокая</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>MET (коэффициент калорий)</label>
+                    <input type="number" id="exercise-met" step="0.1" placeholder="например, 5.0">
+                    <small>Для силовых обычно 5-6, для кардио выше</small>
+                </div>
+                <div class="form-group">
+                    <label>Входит в тренировки</label>
+                    <div id="exercise-workouts-list" class="workouts-info"></div>
+                    <small>Список тренировок, в которых используется упражнение (только для информации)</small>
+                </div>
+                
+                <button type="submit" class="btn-save">Сохранить</button>
+                <button type="button" id="close-modal" class="btn-close">Отмена</button>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+    import { getUser } from '/js/auth.js';
+    const user = getUser();
+    if (!user || user.role !== 'admin') {
+        window.location.href = '/login.html';
+    }
+</script>
+    <script type="module" src="/js/admin-exercises.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

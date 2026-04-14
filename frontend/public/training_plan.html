@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План тренировок - приложение для спорта</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item" data-page="index">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Главная</span>
+    </a>
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+
+    <h1 class="main_header">План тренировок</h1>
+
+    <div class="period-tabs">
+        <button class="tab-btn active" data-period="day">День</button>
+        <button class="tab-btn" data-period="week">Неделя</button>
+        <button class="tab-btn" data-period="month">Месяц</button>
+    </div>
+
+    <!-- Контейнер для динамического контента -->
+    <div id="plan-container" class="plan-content active">
+        <!-- Здесь будет отображаться список тренировок -->
+    </div>
+
+    <div class="action-buttons">
+        <a href="/graph.html" class="action-btn">Смотреть график</a>
+        <a href="/generate.html" class="action-btn">Генерация</a>
+    </div>
+
+    <script type="module" src="/js/training_plan.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

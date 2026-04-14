@@ -1,0 +1,45 @@
+<!-- frontend/public/graph.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>График прогресса | Спорт приложение</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+    <h1 class="main_header">График прогресса</h1>
+
+    <div class="graph-container">
+        <canvas id="progressChart" width="400" height="300" style="width:100%; max-width:400px; height:auto;"></canvas>
+        <p class="note">Здесь будет отображаться динамика ваших показателей (вес, объёмы, сила и т.д.)</p>
+    </div>
+
+    <div class="graph-controls">
+  <select id="metric-select">
+    <option value="weight">Вес</option>
+    <option value="hips">Бёдра</option>
+    <option value="chest">Грудь</option>
+    <option value="waist">Талия</option>
+    <option value="bodyFat">% жира</option>
+  </select>
+  <div>
+    <button class="filter-btn active" data-period="week">Неделя</button>
+    <button class="filter-btn" data-period="month">Месяц</button>
+    <button class="filter-btn" data-period="year">Год</button>
+  </div>
+</div>
+
+
+    <a href="training_plan.html" class="back-link">← Назад к плану</a>
+
+    <script type="module">
+    import { redirectIfNotAuthenticated } from '/js/auth.js';
+    redirectIfNotAuthenticated();
+</script>
+    <script type="module" src="/js/graph.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Генерация плана - приложение для спорта</title>
+    <link rel="stylesheet" href="/css/mobile_styles.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+<body>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item" data-page="index">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Главная</span>
+    </a>
+    <a href="profile.html" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Профиль</span>
+    </a>
+    <a href="training_plan.html" class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+    </a>
+    <a href="training.html" class="nav-item" data-page="training">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">Тренировка</span>
+    </a>
+    <a href="progress.html" class="nav-item" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Прогресс</span>
+    </a>
+</nav>
+    <h1 class="main_header">Составить план тренировок</h1>
+
+    <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+            <!-- Сообщения будут появляться здесь динамически -->
+            <div class="message assistant">
+                <div class="message-content">
+                    Привет! Я помогу составить персональный план тренировок. Расскажи о своих целях, уровне подготовки и предпочтениях.
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <textarea id="user-input" rows="2" placeholder="Напишите сообщение..."></textarea>
+            <button id="send-btn">Отправить</button>
+        </div>
+    </div>
+
+    <script type="module" src="/js/generate.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>

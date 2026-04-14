@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: gym_postgres
+    environment:
+      POSTGRES_DB: gymapp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gym_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: gym_app
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    volumes:
+      - .:/app
+      - /app/backend/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/gymapp?schema=public
+      JWT_SECRET: supersecretkey123
+      YANDEX_FOLDER_ID: b1gdfddnojgnqmm2ag05
+      YANDEX_API_KEY: AQVN2UJH-M4-ttZIhlktkJzrRxEvhtGas5YRYebr
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gym_network
+
+volumes:
+  postgres_data:
+
+networks:
+  gym_network:

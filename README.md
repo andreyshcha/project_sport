@@ -4,7 +4,7 @@
 
 1. Установите [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Склонируйте репозиторий и перейдите в папку проекта.
-3. Откройте терминал (Ctrl + `) и выполните:
+3. Откройте терминал (Ctrl + ` ) и выполните:
 ```bash
 docker-compose up -d # установка необходимых зависимостей
 docker exec -it gym_app npx prisma db push # создание бд

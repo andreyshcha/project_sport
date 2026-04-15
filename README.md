@@ -7,10 +7,14 @@
 1. Установите [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Склонируйте репозиторий и перейдите в папку проекта.
 3. Выполните:
+   
   docker-compose up -d
+
   docker exec -it gym_app npx prisma db push
+  
   docker exec -it gym_app node backend/seedExercises.js
-4. Откройте http://localhost:3000
+  
+5. Откройте http://localhost:3000
 
 ## Локальный запуск
 

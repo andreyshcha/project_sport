@@ -1,26 +1,22 @@
 # Спорт приложение – тренировки с AI
 
-## Запуск через Docker (рекомендуется)
+## Запуск через Docker 
 
 1. Установите [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Склонируйте репозиторий и перейдите в папку проекта.
-3. Выполните:
+3. Откройте терминал (Ctrl + `) и выполните:
 ```bash
-docker-compose up -d
-docker exec -it gym_app npx prisma db push
-docker exec -it gym_app node backend/seedExercises.js
+docker-compose up -d # установка необходимых зависимостей
+docker exec -it gym_app npx prisma db push # создание бд
+docker exec -it gym_app node seedExercises.js # запуск скрипта для наполнения бд упражнениями
+docker exec -it gym_app npx prisma studio # запуск визуализации бд
+# ВАЖНО: выполнять команды по одной
 ```
-  
-4. Откройте http://localhost:3000
+4. Откройте http://localhost:3000 
+5. Авторизуйтесь от лица администратора (admin@example.com / admin) или зарегистрируйте учётные данные
+6. Откройте http://localhost:5555
+7. В таблице Users выдайте администратору роль admin (если её еще нет)
+8. Проверьте наличие первоначального наполнения таблицы Exercises. Поля ImageURL должны быть заполнены
+9. Зарегистрируйте учётные данные пользователя и авторизуйтесь
+10. Следуйте инструкциям в приложении и продолжайте использование!
 
-## Локальный запуск
-
-- Node.js 18+, PostgreSQL
-- Создайте `.env` в папке `backend` (см. пример)
-- Выполните `npm install`, затем `npx prisma db push`, затем `node seedExercises.js`
-- Запустите `npm run dev`
-
-## Учётные данные
-
-- Админ: admin@example.com / admin (создаётся автоматически)
-- Обычный пользователь: зарегистрируйтесь через форму
